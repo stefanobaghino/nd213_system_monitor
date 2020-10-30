@@ -33,6 +33,10 @@ void command_test() {
     assert(LinuxParser::Command(1) == "init");
 }
 
+void ram_test() {
+    assert(!LinuxParser::Ram(1).empty());
+}
+
 int main() {
 
     format_test(   0, "00:00:00");
@@ -58,6 +62,8 @@ int main() {
     running_processes_test();
 
     command_test();
+
+    ram_test();
 
     std::cout << "No failed assertion, all tests pass.\n";
 }
