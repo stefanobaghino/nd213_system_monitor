@@ -37,6 +37,10 @@ void ram_test() {
     assert(!LinuxParser::Ram(1).empty());
 }
 
+void uid_test() {
+    assert(!LinuxParser::Uid(1).empty());
+}
+
 int main() {
 
     format_test(   0, "00:00:00");
@@ -64,6 +68,8 @@ int main() {
     command_test();
 
     ram_test();
+
+    uid_test();
 
     std::cout << "No failed assertion, all tests pass.\n";
 }

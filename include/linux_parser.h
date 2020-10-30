@@ -65,6 +65,7 @@ long int UpTime(int pid);
 const std::string kProcStatProcesses{"processes"};
 const std::string kProcStatProcsRunning{"procs_running"};
 const std::string kProcStatusName{"Name:"};
+const std::string kProcStatusUid{"Uid:"};
 const std::string kProcStatusVmSize{"VmSize:"};
 };  // namespace LinuxParser
 
