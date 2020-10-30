@@ -24,6 +24,11 @@ void total_processes_test() {
     assert(total_processes > 0);
 }
 
+void running_processes_test() {
+    auto running_processes = LinuxParser::RunningProcesses();
+    assert(running_processes > 0);
+}
+
 int main() {
 
     format_test(   0, "00:00:00");
@@ -45,6 +50,8 @@ int main() {
     uptime_test();
 
     total_processes_test();
+
+    running_processes_test();
 
     std::cout << "No failed assertion, all tests pass.\n";
 }
