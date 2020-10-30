@@ -41,6 +41,10 @@ void uid_test() {
     assert(!LinuxParser::Uid(1).empty());
 }
 
+void user_test() {
+    assert(LinuxParser::User(1) == "root");
+}
+
 int main() {
 
     format_test(   0, "00:00:00");
@@ -70,6 +74,8 @@ int main() {
     ram_test();
 
     uid_test();
+
+    user_test();
 
     std::cout << "No failed assertion, all tests pass.\n";
 }
