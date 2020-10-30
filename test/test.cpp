@@ -29,6 +29,10 @@ void running_processes_test() {
     assert(running_processes > 0);
 }
 
+void command_test() {
+    assert(LinuxParser::Command(1) == "init");
+}
+
 int main() {
 
     format_test(   0, "00:00:00");
@@ -52,6 +56,8 @@ int main() {
     total_processes_test();
 
     running_processes_test();
+
+    command_test();
 
     std::cout << "No failed assertion, all tests pass.\n";
 }
