@@ -28,5 +28,7 @@ clean:
 test: build
 	mkdir -p build_test
 	g++ -std=c++17 -I ./include/ -c ./test/test.cpp -o ./build_test/test.o
-	g++ -std=c++17 -o ./build_test/test ./build_test/*.o ./build/CMakeFiles/monitor.dir/src/format.cpp.o
+	g++ -std=c++17 -o ./build_test/test ./build_test/*.o \
+	  ./build/CMakeFiles/monitor.dir/src/format.cpp.o \
+	  ./build/CMakeFiles/monitor.dir/src/linux_parser.cpp.o
 	./build_test/test

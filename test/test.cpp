@@ -3,9 +3,15 @@
 #include <string>
 
 #include "format.h"
+#include "linux_parser.h"
 
 void format_test(long input, std::string expected) {
     assert(Format::ElapsedTime(input) == expected);
+}
+
+void meminfo_test() {
+    auto memory_utilization = LinuxParser::MemoryUtilization();
+    assert(memory_utilization > 0.0 && memory_utilization < 100.0);
 }
 
 int main() {
@@ -23,6 +29,8 @@ int main() {
     format_test(3661, "01:01:01");
     format_test(3670, "01:01:10");
     format_test(8519, "02:21:59");
+
+    meminfo_test();
 
     std::cout << "No failed assertion, all tests pass.\n";
 }

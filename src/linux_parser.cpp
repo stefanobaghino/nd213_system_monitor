@@ -2,6 +2,8 @@
 #include <unistd.h>
 #include <string>
 #include <vector>
+#include <unordered_map>
+#include <limits>
 
 #include "linux_parser.h"
 
@@ -9,6 +11,7 @@ using std::stof;
 using std::string;
 using std::to_string;
 using std::vector;
+using std::unordered_map;
 
 // DONE: An example of how to read data from the filesystem
 string LinuxParser::OperatingSystem() {
@@ -66,8 +69,22 @@ vector<int> LinuxParser::Pids() {
   return pids;
 }
 
-// TODO: Read and return the system memory utilization
-float LinuxParser::MemoryUtilization() { return 0.0; }
+float LinuxParser::MemoryUtilization() {
+  string name;
+  long value;
+  unordered_map<string, float> mem_info;
+  std::ifstream stream(kProcDirectory + kMeminfoFilename);
+  while (stream >> name >> value) {
+    mem_info.insert({name, value});
+    stream.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+  }
+  float total_memory = mem_info[kMemInfoTotal];
+  float total_used_memory = total_memory - mem_info[kMemInfoFree];
+  float cached_memory = mem_info[kMemInfoCached] + mem_info[kMemInfoReclaimable] - mem_info[kMemInfoShared];
+  float non_cache_buffers_memory = mem_info[kMemInfoBuffers] + cached_memory;
+  float net_used_memory = total_used_memory - non_cache_buffers_memory;
+  return net_used_memory / total_memory * 100;
+}
 
 // TODO: Read and return the system uptime
 long LinuxParser::UpTime() { return 0; }

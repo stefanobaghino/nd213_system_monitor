@@ -18,6 +18,15 @@ const std::string kVersionFilename{"/version"};
 const std::string kOSPath{"/etc/os-release"};
 const std::string kPasswordPath{"/etc/passwd"};
 
+// Memory info keys
+const std::string kMemInfoTotal{"MemTotal:"};
+const std::string kMemInfoFree{"MemFree:"};
+const std::string kMemInfoAvailable{"MemAvailable:"};
+const std::string kMemInfoBuffers{"Buffers:"};
+const std::string kMemInfoCached{"Cached:"};
+const std::string kMemInfoReclaimable{"SReclaimable:"};
+const std::string kMemInfoShared{"Shmem"};
+
 // System
 float MemoryUtilization();
 long UpTime();
