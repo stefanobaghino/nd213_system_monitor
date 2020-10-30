@@ -45,6 +45,10 @@ void user_test() {
     assert(LinuxParser::User(1) == "root");
 }
 
+void process_uptime_test() {
+    assert(LinuxParser::UpTime(1) > 0);
+}
+
 int main() {
 
     format_test(   0, "00:00:00");
@@ -76,6 +80,8 @@ int main() {
     uid_test();
 
     user_test();
+
+    process_uptime_test();
 
     std::cout << "No failed assertion, all tests pass.\n";
 }
