@@ -14,6 +14,11 @@ void meminfo_test() {
     assert(memory_utilization > 0.0 && memory_utilization < 100.0);
 }
 
+void uptime_test() {
+    auto uptime = LinuxParser::UpTime();
+    assert(uptime > 0);
+}
+
 int main() {
 
     format_test(   0, "00:00:00");
@@ -31,6 +36,8 @@ int main() {
     format_test(8519, "02:21:59");
 
     meminfo_test();
+
+    uptime_test();
 
     std::cout << "No failed assertion, all tests pass.\n";
 }
