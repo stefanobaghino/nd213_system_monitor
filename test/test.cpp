@@ -19,6 +19,11 @@ void uptime_test() {
     assert(uptime > 0);
 }
 
+void total_processes_test() {
+    auto total_processes = LinuxParser::TotalProcesses();
+    assert(total_processes > 0);
+}
+
 int main() {
 
     format_test(   0, "00:00:00");
@@ -38,6 +43,8 @@ int main() {
     meminfo_test();
 
     uptime_test();
+
+    total_processes_test();
 
     std::cout << "No failed assertion, all tests pass.\n";
 }
