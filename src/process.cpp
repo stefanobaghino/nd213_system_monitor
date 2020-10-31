@@ -12,6 +12,28 @@ using std::to_string;
 using std::vector;
 
 Process::Process(int pid) : pid_(pid) {
+  command_ = LinuxParser::Command(pid_);
+  cpu_utilization_ = ComputeCpuUtilization();
+  ram_ = LinuxParser::Ram(pid_);
+  user_ = LinuxParser::User(pid_);
+  uptime_ = LinuxParser::UpTime(pid_);
+}
+
+int Process::Pid() const { return pid_; }
+
+float Process::CpuUtilization() { return cpu_utilization_; }
+
+string Process::Command() const { return command_; }
+
+string Process::Ram() const { return ram_; }
+
+string Process::User() const { return user_; }
+
+long int Process::UpTime() const { return uptime_; }
+
+bool Process::operator<(Process const& a) const { return cpu_utilization_ < a.cpu_utilization_; }
+
+float Process::ComputeCpuUtilization() {
   auto proc_stat = LinuxParser::CpuUtilization(pid_);
 
   float utime = proc_stat[LinuxParser::CPUTime::kUtime_];
@@ -26,19 +48,5 @@ Process::Process(int pid) : pid_(pid) {
   float starttime_seconds = starttime / hz;
   float seconds = uptime - starttime_seconds;
 
-  cpu_utilization_ = (total_time / hz) / seconds;
+  return (total_time / hz) / seconds;
 }
-
-int Process::Pid() const { return pid_; }
-
-float Process::CpuUtilization() { return cpu_utilization_; }
-
-string Process::Command() const { return LinuxParser::Command(pid_); }
-
-string Process::Ram() const { return LinuxParser::Ram(pid_); }
-
-string Process::User() const { return LinuxParser::User(pid_); }
-
-long int Process::UpTime() const { return LinuxParser::UpTime(pid_); }
-
-bool Process::operator<(Process const& a) const { return cpu_utilization_ < a.cpu_utilization_; }

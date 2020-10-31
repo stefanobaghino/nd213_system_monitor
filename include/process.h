@@ -17,6 +17,12 @@ class Process {
  private:
   int pid_;
   float cpu_utilization_{0.0};
+  std::string user_;
+  std::string command_;
+  std::string ram_;
+  long uptime_;
+
+  float ComputeCpuUtilization();
 };
 
 #endif
