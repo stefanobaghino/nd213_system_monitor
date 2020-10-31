@@ -31,5 +31,6 @@ test: build
 	g++ -std=c++17 -o ./build_test/test ./build_test/*.o \
 	  ./build/CMakeFiles/monitor.dir/src/format.cpp.o \
 	  ./build/CMakeFiles/monitor.dir/src/linux_parser.cpp.o \
-	  ./build/CMakeFiles/monitor.dir/src/processor.cpp.o
+	  ./build/CMakeFiles/monitor.dir/src/processor.cpp.o \
+	  ./build/CMakeFiles/monitor.dir/src/process.cpp.o
 	./build_test/test

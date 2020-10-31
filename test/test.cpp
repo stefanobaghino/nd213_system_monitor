@@ -5,6 +5,7 @@
 #include "format.h"
 #include "linux_parser.h"
 #include "processor.h"
+#include "process.h"
 
 void format_test(long input, std::string expected) {
     assert(Format::ElapsedTime(input) == expected);
@@ -70,6 +71,15 @@ void processor_test() {
     assert(utilization_t2 >= 0 && utilization_t2 <= 1);
 }
 
+void process_test() {
+    Process init(1);
+    assert(init.Pid() == 1);
+    assert(init.Command() == "init");
+    assert(init.User() == "root");
+    assert(init.UpTime() > 0);
+    assert(!init.Ram().empty());
+}
+
 int main() {
 
     format_test(   0, "00:00:00");
@@ -109,6 +119,8 @@ int main() {
     cpu_utilization_test();
 
     processor_test();
+
+    process_test();
 
     std::cout << "No failed assertion, all tests pass.\n";
 }
