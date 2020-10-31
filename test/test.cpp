@@ -54,6 +54,13 @@ void kernel_version_test() {
     assert(!kernel.empty() && kernel != "version");
 }
 
+void cpu_utilization_test() {
+    auto user_t1 = LinuxParser::CpuUtilization()[0];
+    assert(user_t1 > 0);
+    auto user_t2 = LinuxParser::CpuUtilization()[0];
+    assert(user_t1 <= user_t2);
+}
+
 int main() {
 
     format_test(   0, "00:00:00");
@@ -89,6 +96,8 @@ int main() {
     process_uptime_test();
 
     kernel_version_test();
+
+    cpu_utilization_test();
 
     std::cout << "No failed assertion, all tests pass.\n";
 }

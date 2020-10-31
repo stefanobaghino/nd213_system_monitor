@@ -4,6 +4,7 @@
 #include <fstream>
 #include <regex>
 #include <string>
+#include <unordered_map>
 
 namespace LinuxParser {
 // Paths
@@ -27,6 +28,9 @@ const std::string kMemInfoCached{"Cached:"};
 const std::string kMemInfoReclaimable{"SReclaimable:"};
 const std::string kMemInfoShared{"Shmem"};
 
+// Helpers
+std::unordered_map<std::string, std::vector<unsigned long>> ReadProcStat();
+
 // System
 float MemoryUtilization();
 long UpTime();
@@ -49,7 +53,7 @@ enum CPUStates {
   kGuest_,
   kGuestNice_
 };
-std::vector<std::string> CpuUtilization();
+std::vector<unsigned long> CpuUtilization();
 long Jiffies();
 long ActiveJiffies();
 long ActiveJiffies(int pid);
@@ -62,6 +66,7 @@ std::string Uid(int pid);
 std::string User(int pid);
 long int UpTime(int pid);
 
+const std::string kProcStatCpu{"cpu"};
 const std::string kProcStatProcesses{"processes"};
 const std::string kProcStatProcsRunning{"procs_running"};
 const std::string kProcStatusName{"Name:"};
