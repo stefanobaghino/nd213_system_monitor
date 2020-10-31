@@ -155,19 +155,12 @@ int LinuxParser::RunningProcesses() {
 }
 
 string LinuxParser::Command(int pid) {
-  string line;
-  std::ifstream stream(kProcDirectory + std::to_string(pid) + kStatusFilename);
-  while (stream.is_open() && std::getline(stream, line)) {
-    std::istringstream linestream(line);
-    string name;
-    linestream >> name;
-    if (name == kProcStatusName) {
-      string command_name;
-      linestream >> command_name;
-      return command_name;
-    }
+  string cmdline;
+  std::ifstream stream(kProcDirectory + std::to_string(pid) + kCmdlineFilename);
+  if (stream.is_open()) {
+    std::getline(stream, cmdline);
   }
-  return "";
+  return cmdline;
 }
 
 string LinuxParser::Ram(int pid) {
