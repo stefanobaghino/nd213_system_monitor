@@ -30,6 +30,7 @@ const std::string kMemInfoShared{"Shmem"};
 
 // Helpers
 std::unordered_map<std::string, std::vector<unsigned long>> ReadProcStat();
+std::vector<unsigned long> ReadProcStat(int pid);
 
 // System
 float MemoryUtilization();
@@ -54,10 +55,12 @@ enum CPUStates {
   kGuestNice_
 };
 std::vector<unsigned long> CpuUtilization();
-long Jiffies();
-long ActiveJiffies();
-long ActiveJiffies(int pid);
-long IdleJiffies();
+
+// /proc/[pid]/stat
+enum ProcStat {
+  kStarttime_ = 22
+};
+std::vector<unsigned long> CpuUtilization(int pid);
 
 // Processes
 std::string Command(int pid);

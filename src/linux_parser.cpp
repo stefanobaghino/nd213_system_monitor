@@ -95,9 +95,10 @@ long LinuxParser::UpTime() {
   return uptime;
 }
 
-// TODO: Read and return the number of active jiffies for a PID
-// REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
+vector<unsigned long> LinuxParser::CpuUtilization(int pid[[maybe_unused]]) {
+  vector<unsigned long> utilization;
+  return utilization;
+}
 
 vector<unsigned long> LinuxParser::CpuUtilization() {
   return ReadProcStat()[kProcStatCpu];
@@ -119,6 +120,25 @@ unordered_map<string, vector<unsigned long>> LinuxParser::ReadProcStat() {
     stats.insert({name, std::move(values)});
   }
   return stats;
+}
+
+std::vector<unsigned long> LinuxParser::ReadProcStat(int pid) {
+  string line;
+  vector<unsigned long> values;
+  std::ifstream stream(kProcDirectory + std::to_string(pid) + kStatFilename);
+  while (stream.is_open() && std::getline(stream, line)) {
+    std::istringstream linestream(line);
+
+    string skip;
+    unsigned long value;
+    linestream >> value >> skip >> skip;
+    values = {value, 0, 0};
+
+    while (linestream >> value) {
+      values.push_back(value);
+    }
+  }
+  return values;
 }
 
 int LinuxParser::TotalProcesses() {
@@ -202,21 +222,6 @@ string LinuxParser::User(int pid) {
   return "";
 }
 
-void SkipFields(std::istringstream& stream, unsigned int n, char separator) {
-  while (n-- > 0) {
-    stream.ignore(std::numeric_limits<std::streamsize>::max(), separator);
-  }
-}
-
 long LinuxParser::UpTime(int pid) {
-  long uptime;
-  string line;
-  std::ifstream stream(kProcDirectory + std::to_string(pid) + kStatFilename);
-  if (stream.is_open()) {
-    std::getline(stream, line);
-    std::istringstream linestream(line);
-    SkipFields(linestream, 22, ' ');
-    linestream >> uptime;
-  }
-  return uptime;
+  return ReadProcStat(pid)[ProcStat::kStarttime_] / sysconf(_SC_CLK_TCK);
 }
