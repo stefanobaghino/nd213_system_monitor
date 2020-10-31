@@ -80,7 +80,7 @@ float LinuxParser::MemoryUtilization() {
   float cached_memory = mem_info[kMemInfoCached] + mem_info[kMemInfoReclaimable] - mem_info[kMemInfoShared];
   float non_cache_buffers_memory = mem_info[kMemInfoBuffers] + cached_memory;
   float net_used_memory = total_used_memory - non_cache_buffers_memory;
-  return net_used_memory / total_memory * 100;
+  return net_used_memory / total_memory;
 }
 
 long LinuxParser::UpTime() {

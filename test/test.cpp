@@ -12,7 +12,7 @@ void format_test(long input, std::string expected) {
 
 void meminfo_test() {
     auto memory_utilization = LinuxParser::MemoryUtilization();
-    assert(memory_utilization > 0.0 && memory_utilization < 100.0);
+    assert(memory_utilization > 0.0 && memory_utilization <= 1.0);
 }
 
 void uptime_test() {
