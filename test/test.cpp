@@ -49,6 +49,11 @@ void process_uptime_test() {
     assert(LinuxParser::UpTime(1) > 0);
 }
 
+void kernel_version_test() {
+    auto kernel = LinuxParser::Kernel();
+    assert(!kernel.empty() && kernel != "version");
+}
+
 int main() {
 
     format_test(   0, "00:00:00");
@@ -82,6 +87,8 @@ int main() {
     user_test();
 
     process_uptime_test();
+
+    kernel_version_test();
 
     std::cout << "No failed assertion, all tests pass.\n";
 }
