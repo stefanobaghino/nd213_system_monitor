@@ -47,8 +47,21 @@ void user_test() {
     assert(LinuxParser::User(1) == "root");
 }
 
+void process_cpu_utilization_test() {
+    auto pid = 1;
+    auto p = LinuxParser::ReadProcStat(pid);
+    auto u = LinuxParser::CpuUtilization(pid);
+    assert(u.size() == 5);
+    assert(p[LinuxParser::ProcStat::kProcStatUtime_] == u[LinuxParser::CPUTime::kUtime_]);
+    assert(p[LinuxParser::ProcStat::kProcStatStime_] == u[LinuxParser::CPUTime::kStime_]);
+    assert(p[LinuxParser::ProcStat::kProcStatCutime_] == u[LinuxParser::CPUTime::kCutime_]);
+    assert(p[LinuxParser::ProcStat::kProcStatCstime_] == u[LinuxParser::CPUTime::kCstime_]);
+    assert(p[LinuxParser::ProcStat::kProcStatStarttime_] == u[LinuxParser::CPUTime::kStarttime_]);
+}
+
 void process_uptime_test() {
-    assert(LinuxParser::UpTime(1) > 0);
+    auto uptime = LinuxParser::UpTime(1);
+    assert(uptime >= 0 && uptime <= 1);
 }
 
 void kernel_version_test() {
@@ -76,7 +89,7 @@ void process_test() {
     assert(init.Pid() == 1);
     assert(init.Command() == "init");
     assert(init.User() == "root");
-    assert(init.UpTime() > 0);
+    assert(init.UpTime() >= 0);
     assert(!init.Ram().empty());
 }
 
@@ -111,6 +124,8 @@ int main() {
     uid_test();
 
     user_test();
+
+    process_cpu_utilization_test();
 
     process_uptime_test();
 

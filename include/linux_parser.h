@@ -41,7 +41,7 @@ int RunningProcesses();
 std::string OperatingSystem();
 std::string Kernel();
 
-// CPU
+// CPU (system)
 enum CPUStates {
   kUser_ = 0,
   kNice_,
@@ -56,9 +56,22 @@ enum CPUStates {
 };
 std::vector<unsigned long> CpuUtilization();
 
-// /proc/[pid]/stat
+// /proc/[pid]/stat adjusted for 0-based indexing
 enum ProcStat {
-  kStarttime_ = 22
+  kProcStatUtime_ = 13,
+  kProcStatStime_ = 14,
+  kProcStatCutime_ = 15,
+  kProcStatCstime_ = 16,
+  kProcStatStarttime_ = 21
+};
+
+// CPU (process)
+enum CPUTime {
+  kUtime_ = 0,
+  kStime_,
+  kCutime_,
+  kCstime_,
+  kStarttime_
 };
 std::vector<unsigned long> CpuUtilization(int pid);
 

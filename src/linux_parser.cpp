@@ -95,9 +95,14 @@ long LinuxParser::UpTime() {
   return uptime;
 }
 
-vector<unsigned long> LinuxParser::CpuUtilization(int pid[[maybe_unused]]) {
-  vector<unsigned long> utilization;
-  return utilization;
+std::vector<unsigned long> LinuxParser::CpuUtilization(int pid) {
+  auto proc_stat = ReadProcStat(pid);
+  auto utime = proc_stat[kProcStatUtime_];
+  auto stime = proc_stat[kProcStatStime_];
+  auto cutime = proc_stat[kProcStatCutime_];
+  auto cstime = proc_stat[kProcStatCstime_];
+  auto starttime = proc_stat[kProcStatStarttime_];
+  return {utime, stime, cutime, cstime, starttime};
 }
 
 vector<unsigned long> LinuxParser::CpuUtilization() {
@@ -223,5 +228,10 @@ string LinuxParser::User(int pid) {
 }
 
 long LinuxParser::UpTime(int pid) {
-  return ReadProcStat(pid)[ProcStat::kStarttime_] / sysconf(_SC_CLK_TCK);
+  auto proc_stat = ReadProcStat(pid);
+  auto utime = proc_stat[kUtime_];
+  auto stime = proc_stat[kStime_];
+  auto cutime = proc_stat[kCutime_];
+  auto cstime = proc_stat[kCstime_];
+  return (utime + stime + cutime + cstime) / sysconf(_SC_CLK_TCK);
 }
