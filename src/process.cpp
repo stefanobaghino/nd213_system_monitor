@@ -12,12 +12,6 @@ using std::to_string;
 using std::vector;
 
 Process::Process(int pid) : pid_(pid) {
-    CpuUtilization();
-}
-
-int Process::Pid() const { return pid_; }
-
-float Process::CpuUtilization() {
   auto proc_stat = LinuxParser::CpuUtilization(pid_);
 
   float utime = proc_stat[LinuxParser::CPUTime::kUtime_];
@@ -33,9 +27,11 @@ float Process::CpuUtilization() {
   float seconds = uptime - starttime_seconds;
 
   cpu_utilization_ = (total_time / hz) / seconds;
-
-  return cpu_utilization_;
 }
+
+int Process::Pid() const { return pid_; }
+
+float Process::CpuUtilization() { return cpu_utilization_; }
 
 string Process::Command() const { return LinuxParser::Command(pid_); }
 
